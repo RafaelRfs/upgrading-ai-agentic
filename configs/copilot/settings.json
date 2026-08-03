@@ -1,0 +1,11 @@
+{
+  "github.copilot.chat.mcp.enabled": true,
+  "github.copilot.chat.agent.enabled": true,
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  "chat.agentFilesLocations": {
+    "D:\\seu diretorio\\git\\projeto\\upgrading-ai-agentic\\agents": true
+  },
+  "chat.promptFilesLocations": {
+    "D:\\seu diretorio\\git\\projeto\\upgrading-ai-agentic\\prompts": true
+  }
+}

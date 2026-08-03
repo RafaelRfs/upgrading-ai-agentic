@@ -1,0 +1,94 @@
+{
+  "servers": {
+    "microsoft-learn": {
+      "type": "http",
+      "url": "https://learn.microsoft.com/api/mcp",
+      "tools": [
+        "microsoft_docs_search",
+        "microsoft_docs_fetch",
+        "microsoft_code_sample_search"
+      ]
+    },
+    "context7": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "tools": [
+        "resolve-library-id",
+        "get-library-docs"
+      ]
+    },
+    "fetch": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-fetch"
+      ],
+      "tools": [
+        "fetch"
+      ]
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "tools": [
+        "browser_navigate",
+        "browser_screenshot",
+        "browser_click",
+        "browser_type"
+      ]
+    },
+    "memory": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "tools": [
+        "create_entities",
+        "search_nodes",
+        "open_nodes",
+        "add_observations"
+      ]
+    },
+    "sequential-thinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "tools": [
+        "sequentialthinking"
+      ]
+    },
+    "mysql-local": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@database-mcp/mysql",
+        "--dsn",
+        "mysql://root:@127.0.0.1:3306/test"
+      ]
+    },
+    "api-docs-reader": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "D:\\seu diretorio\\git\\projeto"
+      ]
+    }
+  }
+}
