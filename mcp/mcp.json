@@ -36,8 +36,8 @@
       "type": "stdio",
       "command": "npx",
       "args": [
-        "-y",
-        "@playwright/mcp@latest"
+        "--no-install",
+        "@playwright/mcp"
       ],
       "tools": [
         "browser_navigate",
@@ -78,7 +78,7 @@
         "-y",
         "@database-mcp/mysql",
         "--dsn",
-        "mysql://root:@127.0.0.1:3306/test"
+        "mysql://root:@127.0.0.1:3306/teste"
       ]
     },
     "api-docs-reader": {
@@ -87,7 +87,16 @@
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "D:\\seu diretorio\\git\\projeto"
+        "D:\\teste\\ai\\api-docs"
+      ]
+    },
+	"docs-reader": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "."
       ]
     }
   }
