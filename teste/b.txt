@@ -1,0 +1,159 @@
+
+const fs = require("fs");
+const path = require("path");
+const os = require("os");
+const readline = require("readline");
+
+const Event = process.argv[2];
+
+if (!["SessionStart", "Stop"].includes(Event)) {
+    process.stderr.write("Evento invalido: use SessionStart ou Stop.\n");
+    process.exit(1);
+}
+
+const Vault = "C:\\Users\\Raf_F\\Documents\\obsidian\\rfsprod";
+const StateDir = path.join(os.tmpdir(), "copilot-cofre");
+
+fs.mkdirSync(StateDir, { recursive: true });
+
+function output(obj) {
+    process.stdout.write(JSON.stringify(obj) + "\n");
+}
+
+function readPayload() {
+    return new Promise((resolve) => {
+        let raw = "";
+        process.stdin.setEncoding("utf8");
+        process.stdin.on("data", chunk => raw += chunk);
+        process.stdin.on("end", () => {
+            try {
+                resolve(raw.trim() ? JSON.parse(raw) : {});
+            } catch {
+                resolve({});
+            }
+        });
+        if (process.stdin.isTTY) resolve({});
+    });
+}
+
+function sanitizeSession(id) {
+    return id
+        ? String(id).replace(/[^\w-]/g, "_")
+        : "sem-sessao";
+}
+
+function removeOldStateFiles() {
+    const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+
+    for (const name of fs.readdirSync(StateDir)) {
+        const file = path.join(StateDir, name);
+
+        try {
+            if (fs.statSync(file).mtimeMs < cutoff) {
+                fs.rmSync(file, { force: true });
+            }
+        } catch {}
+    }
+}
+
+function findRecentMarkdown(dir, since) {
+    if (!fs.existsSync(dir)) return false;
+
+    let entries;
+
+    try {
+        entries = fs.readdirSync(dir, { withFileTypes: true });
+    } catch {
+        return false;
+    }
+
+    for (const entry of entries) {
+        const fullPath = path.join(dir, entry.name);
+
+        if (
+            entry.isDirectory() &&
+            [".obsidian", ".trash", ".claude"].includes(entry.name)
+        ) {
+            continue;
+        }
+
+        if (entry.isDirectory()) {
+            if (findRecentMarkdown(fullPath, since)) return true;
+        } else if (
+            entry.isFile() &&
+            entry.name.toLowerCase().endsWith(".md")
+        ) {
+            try {
+                if (fs.statSync(fullPath).mtimeMs > since) {
+                    return true;
+                }
+            } catch {}
+        }
+    }
+
+    return false;
+}
+
+async function main() {
+    const payload = await readPayload();
+    const session = sanitizeSession(payload.session_id);
+
+    const startFile = path.join(StateDir, session + ".start");
+    const askedFile = path.join(StateDir, session + ".asked");
+
+    if (Event === "SessionStart") {
+        fs.writeFileSync(startFile, new Date().toISOString(), "utf8");
+        removeOldStateFiles();
+
+        const context = [
+            "Protocolo cofre-memoria ativo (instrucao cofre-memoria.instructions.md).",
+            "1) Antes de agir, busque no cofre Obsidian com obsidian-vault/search_notes e read_notes.",
+            "2) Se nao houver, busque em memory/search_nodes e memory-cht-reader.",
+            "3) Ao terminar, salve o que for reutilizavel no cofre com cofre-fs (Dev Logs/, Knowledge/, Projects/) e registre em Logs/AAAA-MM-DD.md."
+        ].join("\n");
+
+        output({
+            hookSpecificOutput: {
+                hookEventName: "SessionStart",
+                additionalContext: context
+            }
+        });
+
+        return;
+    }
+
+    // Stop
+    if (payload.stop_hook_active || fs.existsSync(askedFile)) {
+        output({ continue: true });
+        return;
+    }
+
+    let since = Date.now() - 2 * 60 * 60 * 1000;
+
+    try {
+        since = new Date(
+            fs.readFileSync(startFile, "utf8").trim()
+        ).getTime();
+
+        if (!Number.isFinite(since)) {
+            since = Date.now() - 2 * 60 * 60 * 1000;
+        }
+    } catch {}
+
+    if (findRecentMarkdown(Vault, since)) {
+        output({ continue: true });
+        return;
+    }
+
+    fs.writeFileSync(askedFile, "", "utf8");
+
+    output({
+        decision: "block",
+        reason: "Antes de encerrar: siga a etapa 3 do protocolo cofre-memoria. Se esta sessao produziu algo reutilizavel (decisao, causa raiz, solucao validada, comando ou configuracao que funcionou), salve no cofre com cofre-fs e registre em Logs/AAAA-MM-DD.md. Se nao houver nada util, responda apenas \"Cofre: nada novo a salvar\"."
+    });
+}
+
+main().catch(err => {
+    process.stderr.write(String(err.stack || err) + "\n");
+    process.exit(1);
+});
