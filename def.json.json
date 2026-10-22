@@ -1,0 +1,72 @@
+{
+  "workbench.colorTheme": "Dark+",
+  "security.workspace.trust.untrustedFiles": "open",
+  "window.zoomLevel": 1,
+  "editor.minimap.enabled": false,
+  "git.openRepositoryInParentFolders": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "terminal.external.windowsExec": "",
+  "settingsSync.ignoredExtensions": [],
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "editor.guides.bracketPairs": true,
+  "editor.autoClosingBrackets": "always",
+  "editor.autoClosingComments": "always",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    },
+    "Command Prompt": {
+      "path": [
+        "${env:windir}\\Sysnative\\cmd.exe",
+        "${env:windir}\\System32\\cmd.exe"
+      ],
+      "icon": "terminal-cmd"
+    },
+    "GitBash": {
+      "icon": "terminal-bash",
+      "path": [
+        "C:\\Program Files\\Git\\bin\\bash.exe"
+      ]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "GitBash",
+  "editor.inlineSuggest.suppressSuggestions": true,
+  "workbench.editor.enablePreview": false,
+  "editor.unicodeHighlight.nonBasicASCII": false,
+  "git.autofetch": true,
+  "claudeCode.preferredLocation": "panel",
+  "roo-cline.debug": true,
+  "roo-cline.allowedCommands": [
+    "git log",
+    "git diff",
+    "git show"
+  ],
+  "roo-cline.deniedCommands": [],
+  "remote.SSH.remotePlatform": {
+    "192.168.3.13": "linux",
+    "192.168.3.14": "linux"
+  },
+  "github.copilot.enable": {
+    "*": true,
+    "markdown": true,
+    "prompt": true
+  },
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "chat.agent.enabled": true,
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  "chat.agentFilesLocations": {
+    "D:\\devEnv\\git_ai\\upgrading-ai-agentic\\agents": true
+  },
+  "chat.promptFilesLocations": {
+    "D:\\devEnv\\git_ai\\upgrading-ai-agentic\\prompts": true
+  },
+  "chat.instructionsFilesLocations": {
+    "D:\\devEnv\\git_ai\\upgrading-ai-agentic\\instructions": true
+  },
+  "chat.useHooks": true,
+  "chat.useClaudeHooks": true,
+  "workbench.settings.applyToAllProfiles": [],
+  "chat.sessionSync.enabled": true,
+  "github.copilot.chat.agentDebugLog.fileLogging.enabled": true
+}

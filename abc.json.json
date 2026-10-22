@@ -1,0 +1,112 @@
+{
+  "servers": {
+    "microsoft-learn": {
+      "type": "http",
+      "url": "https://learn.microsoft.com/api/mcp"
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "fetch": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-server-fetch"
+      ]
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ]
+    },
+    "memory": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "env": {
+        "MEMORY_FILE_PATH": "D:\\devEnv\\git_ai\\upgrading-ai-agentic\\memory\\memory.jsonl"
+      }
+    },
+    "sequential-thinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "mysql-local": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@database-mcp/mysql",
+        "--dsn",
+        "mysql://root:@127.0.0.1:3306/siterfs"
+      ]
+    },
+    "api-docs-reader": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "D:\\devEnv\\git_ai\\api-docs"
+      ]
+    },
+    "docs-reader": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "."
+      ]
+    },
+    "memory-cht-reader": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:\\Users\\Raf_F\\AppData\\Roaming\\Code\\User\\workspaceStorage"
+      ]
+    },
+    "scriptos": {
+      "type": "stdio",
+      "command": "C:\\Users\\Raf_F\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\fastmcp.exe",
+      "args": [
+        "run",
+        "D:\\devEnv\\git_ai\\upgrading-ai-agentic\\mcp\\src\\exec_commands.py"
+      ]
+    },
+    "atlassian": {
+      "type": "http",
+      "url": "https://mcp.atlassian.com/v1/mcp"
+    },
+    "obsidian-vault": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "C:/Users/Raf_F/.local/mcp-obsidian/dist/index.js",
+        "C:/Users/Raf_F/Documents/obsidian/rfsprod"
+      ]
+    },
+    "cofre-fs": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:\\Users\\Raf_F\\Documents\\obsidian\\rfsprod"
+      ]
+    }
+  }
+}

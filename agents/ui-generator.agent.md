@@ -2,6 +2,7 @@
 name: ui-generator
 description: 'Generate Angular Administration UI from API contracts'
 tools:
+  - 'docs-reader/*'
   - 'api-docs-reader/*'
   - 'playwright/*'
   - 'memory/*'
